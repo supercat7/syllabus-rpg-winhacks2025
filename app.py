@@ -4,7 +4,6 @@ import os
 
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
 # Path to your local .json file
 JSON_FILE_PATH = 'classes.json'
