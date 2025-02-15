@@ -6,9 +6,8 @@ app = Flask(__name__)
 # Define a simple route
 @app.route('/')
 def home():
-    return render_template('index.html')  # Make sure to have an index.html in your templates folder
+    return render_template('index.html')
 
-# Example of handling a POST request
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.form['data']  # Assuming form data is passed with key 'data'
