@@ -18,7 +18,3 @@ def set_point(point):
         json.dump(data, j, indent=4)
 
 
-write_comp_to_json(data)
-print(read_json())  
-write_grade_to_json("Final", "75")
-print(read_json())
