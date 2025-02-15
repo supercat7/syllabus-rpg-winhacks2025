@@ -7,45 +7,61 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
-    
+
+  <!-- Navigation -->
+  <nav class="bg-blue-600 py-4">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <div class="text-white font-bold text-lg">Syllabus RPG</div>
+      <div class="space-x-6">
+        <a href="#" class="text-white hover:text-gray-200">Home</a>
+        <a href="#features" class="text-white hover:text-gray-200">Features</a>
+        <a href="#testimonials" class="text-white hover:text-gray-200">Testimonials</a>
+        <a href="#contact" class="text-white hover:text-gray-200">Contact</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- Hero Section -->
-  <section class="bg-blue-700 text-white text-center py-20 flex-grow">
+  <section class="bg-blue-700 text-white text-center py-32 flex-grow flex items-center justify-center">
     <div class="max-w-7xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-semibold">Welcome to Syllabus RPG</h1>
       <p class="mt-4 text-lg">Transform your syllabus into a gamified productivity tool.</p>
-      <a href="#features" class="mt-6 inline-block bg-white text-blue-700 py-2 px-6 rounded-lg text-lg hover:bg-gray-200 transition">Learn More</a>
+      <a href="#" onclick="openModal()" class="mt-6 inline-block bg-white text-blue-700 py-2 px-6 rounded-lg text-lg hover:bg-gray-200 transition">Add Class</a>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section id="features" class="py-20 bg-gray-50 flex-grow">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-semibold text-center">Features</h2>
-      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-          <svg class="w-12 h-12 text-blue-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16l-4-4m0 0l4-4m-4 4h16" />
-          </svg>
-          <h3 class="text-xl font-semibold">Automated To-Do List</h3>
-          <p class="mt-4">Easily create a to-do list from your syllabus and track all deadlines in one place.</p>
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="modal-content">
+      <h2 class="text-2xl font-bold mb-4 text-center">Add New Class</h2>
+      
+      <form id="addClassForm">
+        <!-- Title -->
+        <div class="mb-4">
+          <label for="title" class="block text-gray-700 font-medium">Title</label>
+          <input type="text" id="title" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Assignment, Midterm, Exam">
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-          <svg class="w-12 h-12 text-blue-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m5 18l6-6m0 0l-6-6m6 6H9" />
-          </svg>
-          <h3 class="text-xl font-semibold">Gamified Progress Tracking</h3>
-          <p class="mt-4">Earn points and level up as you complete tasks and achieve your academic goals.</p>
+
+        <!-- Weight -->
+        <div class="mb-4">
+          <label for="weight" class="block text-gray-700 font-medium">Weight (%)</label>
+          <input type="number" id="weight" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter weight (e.g., 20)">
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-          <svg class="w-12 h-12 text-blue-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 17l-4 4m0 0l-4-4m4 4V3" />
-          </svg>
-          <h3 class="text-xl font-semibold">Calendar Integration</h3>
-          <p class="mt-4">Automatically sync deadlines and exams from UWinsite for a complete timeline.</p>
+
+        <!-- Due Date -->
+        <div class="mb-4">
+          <label for="dueDate" class="block text-gray-700 font-medium">Due Date</label>
+          <input type="date" id="dueDate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
-      </div>
+
+        <!-- Submit and Cancel Buttons -->
+        <div class="flex justify-end space-x-4">
+          <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Cancel</button>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Add</button>
+        </div>
+      </form>
     </div>
-  </section>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-blue-600 text-white py-8">
@@ -53,6 +69,35 @@
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- JavaScript for Modal -->
+  <script>
+    function openModal() {
+      const modal = document.getElementById('modal');
+      const modalContent = document.getElementById('modal-content');
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modalContent.classList.remove('scale-90');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      const modalContent = document.getElementById('modal-content');
+      
+      modalContent.classList.add('scale-90');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    document.getElementById('addClassForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('Class added successfully!');
+      closeModal();
+    });
+  </script>
 
 </body>
 </html>
