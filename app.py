@@ -1,30 +1,19 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import json
 import os
+import sys
+sys.path.append("./src")
+import json_func
 
 
 app = Flask(__name__)
 
-# Path to your local .json file
-JSON_FILE_PATH = 'classes.json'
-
-# Load existing data from the .json file or initialize an empty list
-def load_classes():
-    if os.path.exists(JSON_FILE_PATH):
-        with open(JSON_FILE_PATH, 'r') as file:
-            try:
-                return json.load(file)
-            except json.JSONDecodeError:
-                return {}
-    return {}
-
 # Save data to the .json file
 def save_classes(data):
-    with open(JSON_FILE_PATH, 'w') as file:
-        json.dump(data, file, indent=4)
+    write_comp_to_json(data)
 
 # Load the initial class data
-classes = load_classes()
+classes = read_json()
 
 @app.route('/')
 def index():
