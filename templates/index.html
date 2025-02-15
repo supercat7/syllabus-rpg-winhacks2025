@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Syllabus RPG</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/static/script.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
 
@@ -69,29 +70,5 @@
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
   </footer>
-
-  <!-- JavaScript for Modal -->
-  <script>
-    function openModal() {
-      const modal = document.getElementById('modal');
-      const modalContent = document.getElementById('modal-content');
-      
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modalContent.classList.remove('scale-90');
-      }, 10);
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('modal');
-      const modalContent = document.getElementById('modal-content');
-      
-      modalContent.classList.add('scale-90');
-      setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 200);
-    }
-  </script>
-
 </body>
 </html>
