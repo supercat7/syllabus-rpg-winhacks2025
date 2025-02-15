@@ -7,10 +7,7 @@ from json_func import read_json, write_comp_to_json
 
 
 app = Flask(__name__)
-
-# Save data to the .json file
-def save_classes(data):
-    write_comp_to_json(data)
+datapath = "./data/comp.json"
 
 @app.route('/')
 def index():
@@ -19,17 +16,17 @@ def index():
 @app.route('/add_class', methods=['POST'])
 def add_class():
     try:
-        # Parse the incoming JSON request
         new_class = request.get_json()
+        print(f"Received new class data: {new_class}")  # Print the incoming data
 
         if not new_class:
             return jsonify({"error": "No data provided"}), 400
         
-        save_classes(new_class)
+        write_comp_to_json(new_class)
         return jsonify({"message": "Class added successfully"}), 200
     except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Failed to add class"}), 500
+        return jsonify({"error": "Failed to add class", "message": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
