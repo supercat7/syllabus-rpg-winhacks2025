@@ -1,35 +1,32 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sys
 sys.path.append("./src")
 import json_func  # Import your function to write to comp.json
 
 app = Flask(__name__)
 
+# Temporary storage for class data (use a database for persistence)
+classes = []
+
 @app.route('/')
-def home():
-    return render_template('index.html')
+def index():
+    return render_template('index.html', classes=classes)
 
 @app.route('/add_class', methods=['POST'])
 def add_class():
-    try:
-        data = request.get_json()  # Receive JSON data from the frontend
-        current_data = {}
-
-        # Read existing data if the JSON file already exists
-        try:
-            current_data = json_func.read_json()
-        except FileNotFoundError:
-            current_data = {}
-
-        # Merge the new data with the existing data
-        current_data.update(data)
-
-        # Write the updated data back to comp.json
-        json_func.write_comp_to_json(current_data)
-        return jsonify({"message": "Class added successfully!"}), 200
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Failed to add class"}), 500
+    title = request.form.get('title')
+    weight = request.form.get('weight')
+    due_date = request.form.get('dueDate')
+    
+    if title and weight and due_date:
+        # Add the class data to the list (or save to a database)
+        classes.append({
+            'title': title,
+            'weight': weight,
+            'due_date': due_date
+        })
+        return redirect(url_for('index'))
+    return "Missing data", 400
 
 if __name__ == '__main__':
     app.run(debug=True)

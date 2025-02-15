@@ -6,6 +6,7 @@ datapath = "./data/comp.json"
 def write_comp_to_json(comp_dict):
     with open(datapath, "w") as j:
         json.dump(comp_dict, j)
+        j.close()
 
 # returns dictionary from json file
 def read_json():
@@ -15,12 +16,16 @@ def read_json():
         return data
 
 def write_grade_to_json(comp, grade):
-    with open(datapath, "r") as j:
-        data = json.load(j)
+        data = read_json()
         data[comp]["Grade"] = grade
 
     with open(datapath, "w") as j:
         json.dump(data, j, indent=4)
+        j.close()
+
+def get_grade(comp):
+    data = read_json()
+    return data[comp]["Grade"]
 
 
 # data = {
