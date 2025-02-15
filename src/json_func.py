@@ -4,9 +4,10 @@ import os
 datapath = "./data/comp.json"
 # receives a dictionary of course components and corresponding weights
 def write_comp_to_json(comp_dict):
-    with open(datapath, "w") as j:
-        json.dump(comp_dict, j)
-        j.close()
+    data = read_json()
+    data.append(comp_dict)
+    with open('data.json', 'w') as file:
+        json.dump(data, file, indent=4)
 
 # returns dictionary from json file
 def read_json():
