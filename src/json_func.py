@@ -13,12 +13,9 @@ def read_json():
         data = json.load(j)
         j.close()
         return data
-
-def remove_from_json(comp):
     
 dat = {"Hello": "1", "World": "2"}
 write_to_json(dat)
 print(read_json())
-remove_from_json("Hello")
-print(read_json())
+
 
