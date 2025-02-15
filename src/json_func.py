@@ -23,19 +23,10 @@ def write_grade_to_json(comp, grade):
         json.dump(data, j, indent=4)
         j.close()
 
-def get_grade(comp):
+def get_comp_grade(comp):
     data = read_json()
     return data[comp]["Grade"]
 
-
-# data = {
-#     "Final": {
-#         "Weight": "100",
-#         "Grade": ""
-#         }
-#     }
-# 
-# write_comp_to_json(data)
-# print(read_json())  
-# write_grade_to_json("Final", "75")
-# print(read_json())
+def get_comp_date(comp):
+    data = read_json()
+    return data[comp]["Date"]
