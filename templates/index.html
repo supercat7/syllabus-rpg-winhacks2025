@@ -16,7 +16,7 @@
         <a href="#" class="text-white hover:text-gray-200">Home</a>
         <a href="#features" class="text-white hover:text-gray-200">Features</a>
         <a href="#testimonials" class="text-white hover:text-gray-200">Testimonials</a>
-        <a href="#contact" class="text-white hover:text-gray-200">Contact</a>
+        <a href="#contact" class="text-white hover:text-gray-200">Profile</a>
       </div>
     </div>
   </nav>
@@ -35,23 +35,23 @@
     <div class="bg-white rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="modal-content">
       <h2 class="text-2xl font-bold mb-4 text-center">Add New Class</h2>
       
-      <form id="addClassForm">
+      <form id="addClassForm" method="POST" action="/add_class">
         <!-- Title -->
         <div class="mb-4">
           <label for="title" class="block text-gray-700 font-medium">Title</label>
-          <input type="text" id="title" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Assignment, Midterm, Exam">
+          <input type="text" name="title" id="title" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Assignment, Midterm, Exam">
         </div>
 
         <!-- Weight -->
         <div class="mb-4">
           <label for="weight" class="block text-gray-700 font-medium">Weight (%)</label>
-          <input type="number" id="weight" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter weight (e.g., 20)">
+          <input type="number" name="weight" id="weight" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter weight (e.g., 20)">
         </div>
 
         <!-- Due Date -->
         <div class="mb-4">
           <label for="dueDate" class="block text-gray-700 font-medium">Due Date</label>
-          <input type="date" id="dueDate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <input type="date" name="dueDate" id="dueDate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
 
         <!-- Submit and Cancel Buttons -->
@@ -91,12 +91,6 @@
         modal.classList.add('hidden');
       }, 200);
     }
-
-    document.getElementById('addClassForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      alert('Class added successfully!');
-      closeModal();
-    });
   </script>
 
 </body>
