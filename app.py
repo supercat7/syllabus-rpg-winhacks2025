@@ -3,7 +3,7 @@ import json
 import os
 import sys
 sys.path.append("./src")
-import json_func
+from json_func import read_json, write_comp_to_json 
 
 
 app = Flask(__name__)
