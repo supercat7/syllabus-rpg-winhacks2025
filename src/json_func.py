@@ -16,8 +16,8 @@ def read_json():
         return data
 
 def write_grade_to_json(comp, grade):
-        data = read_json()
-        data[comp]["Grade"] = grade
+    data = read_json()
+    data[comp]["Grade"] = grade
 
     with open(datapath, "w") as j:
         json.dump(data, j, indent=4)

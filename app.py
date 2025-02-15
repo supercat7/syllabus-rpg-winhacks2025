@@ -1,32 +1,54 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-import sys
-sys.path.append("./src")
-import json_func  # Import your function to write to comp.json
+import json
+import os
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
-# Temporary storage for class data (use a database for persistence)
-classes = []
+# Path to your local .json file
+JSON_FILE_PATH = 'classes.json'
+
+# Load existing data from the .json file or initialize an empty list
+def load_classes():
+    if os.path.exists(JSON_FILE_PATH):
+        with open(JSON_FILE_PATH, 'r') as file:
+            try:
+                return json.load(file)
+            except json.JSONDecodeError:
+                return {}
+    return {}
+
+# Save data to the .json file
+def save_classes(data):
+    with open(JSON_FILE_PATH, 'w') as file:
+        json.dump(data, file, indent=4)
+
+# Load the initial class data
+classes = load_classes()
 
 @app.route('/')
 def index():
-    return render_template('index.html', classes=classes)
+    return render_template('index.html')
 
 @app.route('/add_class', methods=['POST'])
 def add_class():
-    title = request.form.get('title')
-    weight = request.form.get('weight')
-    due_date = request.form.get('dueDate')
-    
-    if title and weight and due_date:
-        # Add the class data to the list (or save to a database)
-        classes.append({
-            'title': title,
-            'weight': weight,
-            'due_date': due_date
-        })
-        return redirect(url_for('index'))
-    return "Missing data", 400
+    try:
+        # Parse the incoming JSON request
+        new_class = request.get_json()
+        
+        if not new_class:
+            return jsonify({"error": "No data provided"}), 400
+        
+        # Merge the new class data with the existing data
+        classes.update(new_class)
+        save_classes(classes)  # Save updated data to the .json file
+        
+        return jsonify({"message": "Class added successfully"}), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Failed to add class"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
