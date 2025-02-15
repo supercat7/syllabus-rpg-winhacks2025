@@ -3,19 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask App</title>
-    <link rel="stylesheet" href="../static/style.css">
+    <title>Simple To-Do List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Header Section -->
     <header>
-        <h1>Syllabus RPG</h1>
+        To-Do List
     </header>
-    <main>
-        <section>
-        </section>
-    </main>
-    <footer>
-        <p>&copy;Footer</p>
-    </footer>
+
+    <!-- Main Todo List Container -->
+    <div class="main-container">
+        <!-- Input Section -->
+        <div class="input-section">
+            <input type="text" id="todoInput" class="todo-input" placeholder="Add a new task...">
+            <button class="add-button" onclick="addTodo()">Add</button>
+        </div>
+
+        <!-- Todo List -->
+        <ul id="todoList" class="todo-list"></ul>
+    </div>
+
+    <script>
+        // Function to add a new to-do item
+        function addTodo() {
+            const inputField = document.getElementById('todoInput');
+            const todoText = inputField.value.trim();
+
+            if (todoText !== '') {
+                const todoList = document.getElementById('todoList');
+                const newItem = document.createElement('li');
+
+                // Create todo item content
+                newItem.classList.add('todo-item');
+                newItem.innerHTML = `
+                    <span class="todo-item-text">${todoText}</span>
+                    <button class="delete-button" onclick="deleteTodo(this)">Delete</button>
+                `;
+
+                // Append to the list
+                todoList.appendChild(newItem);
+
+                // Clear input field
+                inputField.value = '';
+            }
+        }
+
+        // Function to delete a to-do item
+        function deleteTodo(button) {
+            const item = button.parentElement;
+            item.remove();
+        }
+
+        // Optional: Toggle completed state
+        document.getElementById('todoList').addEventListener('click', function(event) {
+            if (event.target.classList.contains('todo-item-text')) {
+                event.target.classList.toggle('completed');
+            }
+        });
+    </script>
+
 </body>
 </html>
