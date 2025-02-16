@@ -67,15 +67,4 @@ def parse_ai_response(response_text):
             "Weight (%)": weight
         })
 
-    print("Parsed Items:", items)  # Debugging log
     return items  # Return as a Python list
-
-
-
-    if items:
-        print(f"Parsed Items: {json.dumps(items, indent=2)}")  # Debugging log
-        return json.dumps(items)  # Return as a JSON string
-    else:
-        print("No valid results found in response.")
-        return json.dumps([])  # Return an empty list as a JSON string
-

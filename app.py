@@ -4,7 +4,7 @@ import os
 import sys
 import webbrowser
 sys.path.append("./src")
-from json_func import read_json, write_comp_to_json
+from json_func import read_json, append_to_json
 import chardet
 from ai_func import *
 import fitz
@@ -60,7 +60,8 @@ def parse_syllabus():
     parsed_data = parse_syllabus_with_ai(syllabus_text)
     print("Parsed data before returning:", parsed_data)  # Debugging
     
-    # 'parsed_data' should already be a Python list of dictionaries
+    del parsed_data[0]
+    append_to_json(parsed_data)
     return jsonify({"data": parsed_data})
 
 if __name__ == '__main__':
