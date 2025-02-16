@@ -2,44 +2,35 @@ import json
 import os
 
 datapath = "./data/comp.json"
-# receives a dictionary of course components and corresponding weights
-def write_comp_to_json(data):
+
+# Ensure the data directory exists
+os.makedirs(os.path.dirname(datapath), exist_ok=True)
+
+# Initialize comp.json with an empty list if it doesn't exist
+if not os.path.exists(datapath):
+    with open(datapath, 'w') as file:
+        json.dump([], file)
+
+# Receives a dictionary of course components and corresponding weights
+def write_comp_to_json(comp_dict):
     try:
-        # Assuming you are writing to the JSON file
-        with open(datapath, 'r+') as f:
-            current_data = json.load(f)
-            current_data.update(data)
-            f.seek(0)
-            json.dump(current_data, f, indent=4)
+        print(f"Writing data to {datapath}: {comp_dict}")  # Debugging
+        data = read_json()
+        data.append(comp_dict)
+        with open(datapath, 'w') as file:
+            json.dump(data, file, indent=4)
+        print(f"Data written successfully: {data}")  # Debugging
     except Exception as e:
         print(f"Error writing to JSON: {e}")
         raise
 
-
-# returns dictionary from json file
+# Returns data from json file
 def read_json():
     try:
         with open(datapath, "r") as j:
             data = json.load(j)
-        return data
-    except FileNotFoundError:
-        return {}  # Return an empty list if the file doesn't exist
-    except json.JSONDecodeError:
-        return {}  # Return an empty list if the file isn't valid JSON
-
-
-def write_grade_to_json(comp, grade):
-    data = read_json()
-    data[comp]["Grade"] = grade
-
-    with open(datapath, "w") as j:
-        json.dump(data, j, indent=4)
-        j.close()
-
-def get_comp_grade(comp):
-    data = read_json()
-    return data[comp]["Grade"]
-
-def get_comp_date(comp):
-    data = read_json()
-    return data[comp]["Date"]
+            print(f"Data read from {datapath}: {data}")  # Debugging
+            return data
+    except Exception as e:
+        print(f"Error reading JSON: {e}")
+        return []

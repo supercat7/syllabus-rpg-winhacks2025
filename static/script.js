@@ -1,24 +1,24 @@
-console.log('script.js loaded');
-
-document.getElementById('addClassButton').addEventListener('click', openModal);
-
-function openModal() {
-  document.getElementById('modal').classList.remove('hidden');
-  document.getElementById('modal-content').classList.add('scale-100');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden');
-  document.getElementById('modal-content').classList.remove('scale-100');
-}
-
 document.getElementById('addClassForm').addEventListener('submit', async function(event) {
   event.preventDefault();
-  console.log('trying 2');
+  console.log('Form submission started');
 
   const title = document.getElementById('title').value;
   const weight = document.getElementById('weight').value;
   const dueDate = document.getElementById('dueDate').value;
+
+  // Validate weight
+  if (isNaN(weight) || weight < 0 || weight > 100) {
+    alert('Weight must be a number between 0 and 100.');
+    return;
+  }
+
+  // Validate due date
+  const today = new Date();
+  const selectedDate = new Date(dueDate);
+  if (selectedDate < today) {
+    alert('Due date must be in the future.');
+    return;
+  }
 
   if (title && weight && dueDate) {
     const data = {
@@ -30,13 +30,12 @@ document.getElementById('addClassForm').addEventListener('submit', async functio
     };
 
     try {
-      console.log('trying 1');
       const response = await fetch('/add_class', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json' // Ensure this header is set
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data) // Convert data to JSON
       });
 
       if (response.ok) {
@@ -44,7 +43,8 @@ document.getElementById('addClassForm').addEventListener('submit', async functio
         closeModal();
         window.location.reload(); // Reload the page to show the updated list
       } else {
-        alert('Failed to add class. Please try again.');
+        const result = await response.json();
+        alert(`Failed to add class: ${result.error}`);
       }
     } catch (error) {
       console.error('Error:', error);
