@@ -33,6 +33,7 @@ def get_assignment_by_name(course_name):
     return None
 
 def load_all_assignments():
+    data = read_json()
     assignments_dict = {}
     
     for assignment_group in data:

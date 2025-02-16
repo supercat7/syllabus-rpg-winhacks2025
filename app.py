@@ -16,17 +16,16 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-
-# Route for the profile page 
+ 
 @app.route('/profile')
 def profile():
     update_level()
     return render_template('profile.html')
 
-# Route for the To-Do-List page
 @app.route('/todo')
 def todo():
-    return render_template('todo.html')
+    assignments_dict = load_all_assignments()
+    return render_template('todo.html', assignments=assignments_dict)
 
 # Route for adding a class
 @app.route('/add_class', methods=['POST'])
@@ -43,6 +42,42 @@ def add_class():
     except Exception as e:
         print(f"Error in /add_class route: {e}")  # Debugging
         return jsonify({"error": "Failed to add class", "message": str(e)}), 500
+
+# In app.py
+@app.route('/enter_grade', methods=['POST'])
+def enter_grade():
+    data = request.get_json()
+    assignment_name = data.get('assignment_name')
+    grade = float(data.get('grade'))
+    
+    assignment = get_assignment_by_name(assignment_name)
+    if not assignment:
+        return jsonify({"success": False, "message": "Assignment not found"})
+    
+    weight = float(assignment["Weight (%)"].replace('%', ''))  # Extract weight as a number
+    points = grade_to_point(grade, weight)
+    
+    # Update the assignment with the calculated points
+    assignment["Grade"] = points
+    
+    # Remove the assignment from the list
+    data = read_json()
+    for assignment_group in data:
+        if assignment in assignment_group:
+            assignment_group.remove(assignment)
+            break
+    
+    # Save the updated JSON
+    with open('./data/comp.json', 'w') as file:
+        json.dump(data, file, indent=4)
+    
+    # Update points in the points.json file (if needed)
+    current_points = get_point()  # Get current points
+    new_points = current_points + points
+    set_point(new_points)
+    
+    return jsonify({"success": True, "message": "Grade entered successfully!"})
+
 
 # Route for parsing the syllabus
 @app.route('/parse_syllabus', methods=['POST'])

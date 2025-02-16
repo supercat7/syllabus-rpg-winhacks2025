@@ -50,38 +50,33 @@
       </ul>
     </div>
   </nav>
-  
 
-  <!-- Grade Tracker Section -->
+  <!-- Task List Section -->
   <section class="max-w-5xl mx-auto py-16 px-4 flex-grow fade-in">
     <h1 class="text-4xl font-bold text-center mb-8">Tasks</h1>
     
-    <!-- Grade Input Form -->
+    <!-- Task Input Form -->
     <div class="bg-[#21262D] p-6 rounded-lg shadow-md fade-in">
-      <form id="gradeForm" class="flex flex-wrap gap-4">
-        <input type="text" id="className" placeholder="Class Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
+      <form id="taskForm" class="flex flex-wrap gap-4">
         <input type="text" id="taskName" placeholder="Task Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
-        <input type="number" id="percentage" placeholder="Percentage" min="0" max="100" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         <input type="date" id="dueDate" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         
-        <button type="submit" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Add Entry</button>
+        <button type="submit" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Add Task</button>
       </form>
     </div>
 
-    <!-- Grade Table -->
+    <!-- Task Table -->
     <div class="mt-8 fade-in">
       <table class="w-full bg-[#21262D] shadow-md rounded-lg">
         <thead class="bg-[#30363D] text-[#E5E5E5]">
           <tr>
-            <th class="py-3 px-6 text-left">Class</th>
             <th class="py-3 px-6 text-left">Task</th>
-            <th class="py-3 px-6 text-left">Percentage of Final Grade</th>
             <th class="py-3 px-6 text-left">Due Date</th>
-            <th class="py-3 px-6 text-center">Done?</th>
+            <th class="py-3 px-6 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody id="gradeTableBody">
-          <!-- Entries will be added dynamically -->
+        <tbody id="taskTableBody">
+          <!-- Tasks will be added dynamically -->
         </tbody>
       </table>
     </div>
@@ -101,6 +96,35 @@
         setTimeout(() => element.classList.add('show'), 200);
       });
     });
+
+    // Handle form submission and add tasks dynamically
+    document.getElementById('taskForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      
+      const taskName = document.getElementById('taskName').value;
+      const dueDate = document.getElementById('dueDate').value;
+
+      // Create a new table row for the task
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td class="py-3 px-6">${taskName}</td>
+        <td class="py-3 px-6">${dueDate}</td>
+        <td class="py-3 px-6 text-center">
+          <button class="text-[#FF6363] hover:text-[#E5E5E5] transform transition-transform duration-200 hover:scale-105" onclick="removeTask(this)">Remove</button>
+        </td>
+      `;
+      
+      document.getElementById('taskTableBody').appendChild(newRow);
+
+      // Clear the form fields
+      document.getElementById('taskForm').reset();
+    });
+
+    // Remove task function
+    function removeTask(button) {
+      const row = button.closest('tr');
+      row.remove();
+    }
   </script>
 
 </body>
