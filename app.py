@@ -7,6 +7,8 @@ sys.path.append("./src")
 from json_func import read_json, write_comp_to_json 
 import chardet
 from ai_func import *
+import fitz
+
 app = Flask(__name__)
 
 #Route for the home page 
@@ -41,18 +43,24 @@ def add_class():
         print(f"Error in /add_class route: {e}")  # Debugging
         return jsonify({"error": "Failed to add class", "message": str(e)}), 500
 
+
 @app.route('/parse_syllabus', methods=['POST'])
 def parse_syllabus():
     if 'syllabusFile' not in request.files:
         return jsonify({"error": "No file part"}), 400
     
     file = request.files['syllabusFile']
-    syllabus_text = chardet.detect(file.read()) #decode('utf-8')
+    
+    pdf_file = file.read()
+    doc = fitz.open(stream=pdf_file, filetype="pdf")
+    
+    syllabus_text = ""
+    for page_num in range(len(doc)):
+        page = doc.load_page(page_num)
+        syllabus_text += page.get_text()
+  
     parsed_data = parse_syllabus_with_ai(syllabus_text)
-    return jsonify({"data": parsed_data})
 
 
 if __name__ == '__main__':
-    # Open the browser automatically
-    #webbrowser.open_new('http://127.0.0.1:5000')
     app.run(debug=True)
