@@ -11,7 +11,6 @@ if not os.path.exists(datapath):
     with open(datapath, 'w') as file:
         json.dump([], file)
 
-# Receives a dictionary of course components and corresponding weights
 def write_comp_to_json(comp_dict):
     try:
         print(f"Writing data to {datapath}: {comp_dict}")  # Debugging

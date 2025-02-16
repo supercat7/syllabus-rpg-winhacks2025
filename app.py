@@ -5,7 +5,8 @@ import sys
 import webbrowser
 sys.path.append("./src")
 from json_func import read_json, write_comp_to_json 
-
+import chardet
+from ai_func import *
 app = Flask(__name__)
 
 #Route for the home page 
@@ -40,7 +41,18 @@ def add_class():
         print(f"Error in /add_class route: {e}")  # Debugging
         return jsonify({"error": "Failed to add class", "message": str(e)}), 500
 
+@app.route('/parse_syllabus', methods=['POST'])
+def parse_syllabus():
+    if 'syllabusFile' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    
+    file = request.files['syllabusFile']
+    syllabus_text = chardet.detect(file.read()) #decode('utf-8')
+    parsed_data = parse_syllabus_with_ai(syllabus_text)
+    return jsonify({"data": parsed_data})
+
+
 if __name__ == '__main__':
     # Open the browser automatically
-    webbrowser.open_new('http://127.0.0.1:5000')
+    #webbrowser.open_new('http://127.0.0.1:5000')
     app.run(debug=True)
