@@ -1,56 +1,74 @@
-document.getElementById('addClassForm').addEventListener('submit', async function(event) {
+document.getElementById('uploadSyllabusForm').addEventListener('submit', async function(event) {
   event.preventDefault();
-  console.log('Form submission started');
+  console.log('File upload started');
 
-  const title = document.getElementById('title').value;
-  const weight = document.getElementById('weight').value;
-  const dueDate = document.getElementById('dueDate').value;
+  const fileInput = document.getElementById('syllabusFile');
+  const file = fileInput.files[0];
 
-  // Validate weight
-  if (isNaN(weight) || weight < 0 || weight > 100) {
-    alert('Weight must be a number between 0 and 100.');
+  if (!file) {
+    alert('Please select a file before uploading.');
     return;
   }
 
-  // Validate due date
-  const today = new Date();
-  const selectedDate = new Date(dueDate);
-  if (selectedDate < today) {
-    alert('Due date must be in the future.');
-    return;
-  }
+  const formData = new FormData();
+  formData.append('syllabusFile', file);
 
-  if (title && weight && dueDate) {
-    const data = {
-      [title]: {
-        "Weight": weight,
-        "Due Date": dueDate,
-        "Grade": "" // Default grade is an empty string
-      }
-    };
+  try {
+    const response = await fetch('/parse_syllabus', {
+      method: 'POST',
+      body: formData
+    });
 
-    try {
-      const response = await fetch('/add_class', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json' // Ensure this header is set
-        },
-        body: JSON.stringify(data) // Convert data to JSON
-      });
-
-      if (response.ok) {
-        alert('Class added successfully!');
-        closeModal();
-        window.location.reload(); // Reload the page to show the updated list
-      } else {
-        const result = await response.json();
-        alert(`Failed to add class: ${result.error}`);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while adding the class.');
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Parsed data:', result);
+      displayResultsInModal(result.data);
+    } else {
+      const errorText = await response.text();
+      console.error('Failed to parse syllabus:', errorText);
+      alert('Failed to parse syllabus. Please try again.');
     }
-  } else {
-    alert('Please fill out all fields.');
+  } catch (error) {
+    console.error('Error during file upload:', error);
+    alert('An error occurred while uploading the file.');
   }
 });
+
+function displayResultsInModal(data) {
+  const resultsTableBody = document.getElementById('resultsTableBody');
+  resultsTableBody.innerHTML = ''; // Clear previous results
+
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td class="px-4 py-2 border-b">${item.name}</td>
+      <td class="px-4 py-2 border-b">${item.dueDate}</td>
+      <td class="px-4 py-2 border-b">${item.weight}</td>
+    `;
+    resultsTableBody.appendChild(row);
+  });
+
+  openResultsModal();
+}
+
+function openResultsModal() {
+  const modal = document.getElementById('resultsModal');
+  modal.classList.remove('hidden');
+  document.getElementById('resultsModalContent').classList.add('scale-100');
+}
+
+function closeResultsModal() {
+  const modal = document.getElementById('resultsModal');
+  modal.classList.add('hidden');
+  document.getElementById('resultsModalContent').classList.remove('scale-100');
+}
+
+function openModal() {
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('modal-content').classList.add('scale-100');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+  document.getElementById('modal-content').classList.remove('scale-100');
+}
