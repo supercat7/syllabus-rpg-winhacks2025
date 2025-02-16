@@ -5,11 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasks | Syllabus RPG</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col">
 
   <!-- Navigation -->
-  <nav class="py-4 flex justify-center">
+  <nav class="py-4 flex justify-center fade-in">
     <div class="bg-[#21262D] px-10 py-2 rounded-full shadow-lg">
       <ul class="flex items-center space-x-10">
         <li><a href="{{ url_for('index') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Home</a></li>
@@ -20,23 +31,23 @@
   </nav>
 
   <!-- Grade Tracker Section -->
-  <section class="max-w-5xl mx-auto py-16 px-4 flex-grow">
+  <section class="max-w-5xl mx-auto py-16 px-4 flex-grow fade-in">
     <h1 class="text-4xl font-bold text-center mb-8">Tasks</h1>
     
     <!-- Grade Input Form -->
-    <div class="bg-[#21262D] p-6 rounded-lg shadow-md">
+    <div class="bg-[#21262D] p-6 rounded-lg shadow-md fade-in">
       <form id="gradeForm" class="flex flex-wrap gap-4">
         <input type="text" id="className" placeholder="Class Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         <input type="text" id="taskName" placeholder="Task Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         <input type="number" id="percentage" placeholder="Percentage" min="0" max="100" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         <input type="date" id="dueDate" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         
-        <button type="submit" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg hover:bg-[#1F6FEB] transition">Add Entry</button>
+        <button type="submit" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Add Entry</button>
       </form>
     </div>
 
     <!-- Grade Table -->
-    <div class="mt-8">
+    <div class="mt-8 fade-in">
       <table class="w-full bg-[#21262D] shadow-md rounded-lg">
         <thead class="bg-[#30363D] text-[#E5E5E5]">
           <tr>
@@ -55,44 +66,18 @@
   </section>
 
   <!-- Sticky Footer -->
-  <footer class="bg-[#0D1117] text-[#E5E5E5] py-8 mt-auto">
+  <footer class="bg-[#0D1117] text-[#E5E5E5] py-8 mt-auto fade-in">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    document.getElementById("gradeForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent form submission
-
-      let className = document.getElementById("className").value;
-      let taskName = document.getElementById("taskName").value;
-      let percentage = document.getElementById("percentage").value;
-      let dueDate = document.getElementById("dueDate").value;
-
-      if (!className || !taskName || !percentage || !dueDate) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      let tableBody = document.getElementById("gradeTableBody");
-      let newRow = tableBody.insertRow();
-
-      newRow.innerHTML = `
-        <td class="px-6 py-4 border-b border-gray-700">${className}</td>
-        <td class="px-6 py-4 border-b border-gray-700">${taskName}</td>
-        <td class="px-6 py-4 border-b border-gray-700">${percentage}%</td>
-        <td class="px-6 py-4 border-b border-gray-700">${dueDate}</td>
-        <td class="px-6 py-4 border-b border-gray-700 text-center">
-          <button class="bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 transition">Done!</button>
-        </td>
-      `;
-
-      newRow.querySelector("button").addEventListener("click", () => {
-        tableBody.removeChild(newRow);
+    // Add 'show' class to elements when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-in').forEach(element => {
+        setTimeout(() => element.classList.add('show'), 200);
       });
-
-      document.getElementById("gradeForm").reset();
     });
   </script>
 
