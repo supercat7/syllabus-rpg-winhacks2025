@@ -3,3 +3,4 @@ openai
 flask
 fitz
 python-dotenv
+PyMuPDF
