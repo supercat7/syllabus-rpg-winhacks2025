@@ -6,6 +6,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 client = openai.OpenAI(
     base_url="https://api.studio.nebius.ai/v1/",
 )
+
 def parse_syllabus_with_ai(syllabus_text):
     prompt = (
         "You are an assistant designed to extract assignments, exams, due dates, and weights from a syllabus. "
@@ -25,12 +26,16 @@ def parse_syllabus_with_ai(syllabus_text):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    if 'choices' in response:
-        message_content = response['choices'][0].get('message', {}).get('content', '')
-    else:
-        message_content = "Error: Unexpected API response"
+    # Now access the content directly as an attribute (not using subscript)
+    try:
+        # Access the message content from the response object
+        message_content = response.choices[0].message.content if hasattr(response.choices[0], 'message') else ''
+        print(f"HERE: {message_content}")
+        return message_content
+    except AttributeError as e:
+        print(f"Error in accessing response: {e}")
+        return ''
 
-    return message_content
 
 
 def parse_ai_response(response_text):
