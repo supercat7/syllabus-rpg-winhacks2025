@@ -3,18 +3,30 @@ import os
 
 datapath = "./data/comp.json"
 # receives a dictionary of course components and corresponding weights
-def write_comp_to_json(comp_dict):
-    data = read_json()
-    data.append(comp_dict)
-    with open('data.json', 'w') as file:
-        json.dump(data, file, indent=4)
+def write_comp_to_json(data):
+    try:
+        # Assuming you are writing to the JSON file
+        with open(datapath, 'r+') as f:
+            current_data = json.load(f)
+            current_data.update(data)
+            f.seek(0)
+            json.dump(current_data, f, indent=4)
+    except Exception as e:
+        print(f"Error writing to JSON: {e}")
+        raise
+
 
 # returns dictionary from json file
 def read_json():
-    with open(datapath, "r") as j:
-        data = json.load(j)
-        j.close()
+    try:
+        with open(datapath, "r") as j:
+            data = json.load(j)
         return data
+    except FileNotFoundError:
+        return {}  # Return an empty list if the file doesn't exist
+    except json.JSONDecodeError:
+        return {}  # Return an empty list if the file isn't valid JSON
+
 
 def write_grade_to_json(comp, grade):
     data = read_json()
