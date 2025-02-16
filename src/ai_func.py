@@ -25,12 +25,12 @@ def parse_syllabus_with_ai(syllabus_text):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    # Print the entire response to debug its structure
-    print(response)
+    if 'choices' in response:
+        message_content = response['choices'][0].get('message', {}).get('content', '')
+    else:
+        message_content = "Error: Unexpected API response"
 
-    #response_text = response['choices'][0]['message']['content']  # <-- Adjust this based on actual structure
-    #return parse_ai_response(response_text)
-
+    return message_content
 
 
 def parse_ai_response(response_text):

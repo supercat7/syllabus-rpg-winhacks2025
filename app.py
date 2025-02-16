@@ -60,6 +60,7 @@ def parse_syllabus():
         syllabus_text += page.get_text()
   
     parsed_data = parse_syllabus_with_ai(syllabus_text)
+    return jsonify({"data": parsed_data})
 
 
 if __name__ == '__main__':
