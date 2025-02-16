@@ -35,20 +35,47 @@ def parse_syllabus_with_ai(syllabus_text):
     return parse_ai_response(message_content)
 
 def parse_ai_response(response_text):
-    response_text = response_text.strip().split("\n")[1:]
+    if not response_text:
+        return []
 
-    items = {}
-    for line in response_text:
+    response_lines = response_text.strip().split("\n")
+    items = []
+
+    for line in response_lines:
+        # Ensure line has at least 2 commas
+        if line.count(",") < 2:
+            continue
+
+        # Split by ", "
         parts = line.split(", ")
-        if len(parts) == 3:
-            name = parts[0].strip()
-            due_date = parts[1].strip()
-            weight = parts[2].strip()
 
-            items[name] = {
-                "Date": due_date,
-                "weight": weight,
-                "grade": ""  # empty grade field
-            }
-    
-    return json.dumps(items, indent=2)
+        # The first part is the assignment name
+        name = parts[0].strip()
+        # The last part is the weight
+        weight = parts[-1].strip()
+        # Everything in between is the due date
+        if len(parts) > 2:
+            due_date = ", ".join(parts[1:-1]).strip()
+        else:
+            # If there's no middle chunk for due date, skip
+            continue
+
+        # Add the parsed item to our list
+        items.append({
+            "Assignment": name,
+            "Due Date": due_date,
+            "Weight (%)": weight
+        })
+
+    print("Parsed Items:", items)  # Debugging log
+    return items  # Return as a Python list
+
+
+
+    if items:
+        print(f"Parsed Items: {json.dumps(items, indent=2)}")  # Debugging log
+        return json.dumps(items)  # Return as a JSON string
+    else:
+        print("No valid results found in response.")
+        return json.dumps([])  # Return an empty list as a JSON string
+

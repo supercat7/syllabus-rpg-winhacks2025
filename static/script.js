@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('uploadSyllabusForm').addEventListener('submit', async function(event) {
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('uploadSyllabusForm').addEventListener('submit', async function (event) {
     event.preventDefault();
     console.log('File upload started');
     
@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       const response = await fetch('/parse_syllabus', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
-    
+
       if (response.ok) {
         const result = await response.json();
-        console.log('Parsed data:', result);
-        displayResultsInModal(result.data);
+        console.log('Parsed data received:', result);
+        displayResultsInModal(result.data);  // Pass the parsed data to the modal
       } else {
         const errorText = await response.text();
         console.error('Failed to parse syllabus:', errorText);
@@ -36,30 +36,34 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-
 function displayResultsInModal(data) {
+  console.log('Raw data received:', data); // Debugging log to see the data structure
+
   const resultsTableBody = document.getElementById('resultsTableBody');
   resultsTableBody.innerHTML = ''; // Clear previous results
 
-  if (Array.isArray(data)) {
-     data.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-           <td class="px-4 py-2 border-b">${item.name}</td>
-           <td class="px-4 py-2 border-b">${item.dueDate}</td>
-           <td class="px-4 py-2 border-b">${item.weight}</td>
-        `;
-        resultsTableBody.appendChild(row);
-     });
+  if (!Array.isArray(data)) {
+    console.error('Data is not an array:', data);
+    resultsTableBody.innerHTML = '<tr><td colspan="3" class="text-center">No valid results found</td></tr>';
+    return;
+  }
+
+  if (data.length > 0) {
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="px-4 py-2 border-b">${item.Assignment || 'N/A'}</td>
+        <td class="px-4 py-2 border-b">${item['Due Date'] || 'N/A'}</td>
+        <td class="px-4 py-2 border-b">${item['Weight (%)'] || 'N/A'}</td>
+      `;
+      resultsTableBody.appendChild(row);
+    });
   } else {
-     // Handle the case where data is not an array
-     console.error('Data is not an array:', data);
-     resultsTableBody.innerHTML = '<tr><td colspan="3" class="text-center">No valid results found</td></tr>';
+    resultsTableBody.innerHTML = '<tr><td colspan="3" class="text-center">No valid results found</td></tr>';
   }
 
   openResultsModal();
 }
-
 
 function openResultsModal() {
   const modal = document.getElementById('resultsModal');

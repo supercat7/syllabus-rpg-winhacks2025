@@ -4,33 +4,32 @@ import os
 import sys
 import webbrowser
 sys.path.append("./src")
-from json_func import read_json, write_comp_to_json 
+from json_func import read_json, write_comp_to_json
 import chardet
 from ai_func import *
 import fitz
 
 app = Flask(__name__)
 
-#Route for the home page 
-@app.route('/') 
+# Route for the home page 
+@app.route('/')
 def index():
     return render_template('index.html')
 
-#Route for the profile page 
+# Route for the profile page 
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
 
-#route for the To-Do-List page
+# Route for the To-Do-List page
 @app.route('/todo')
 def todo():
     return render_template('todo.html')
 
-#Route for adding a class
+# Route for adding a class
 @app.route('/add_class', methods=['POST'])
 def add_class():
     try:
-        # Parse the incoming JSON request
         new_class = request.get_json()
         print(f"Received new class data: {new_class}")  # Debugging
 
@@ -43,14 +42,13 @@ def add_class():
         print(f"Error in /add_class route: {e}")  # Debugging
         return jsonify({"error": "Failed to add class", "message": str(e)}), 500
 
-
+# Route for parsing the syllabus
 @app.route('/parse_syllabus', methods=['POST'])
 def parse_syllabus():
     if 'syllabusFile' not in request.files:
         return jsonify({"error": "No file part"}), 400
     
     file = request.files['syllabusFile']
-    
     pdf_file = file.read()
     doc = fitz.open(stream=pdf_file, filetype="pdf")
     
@@ -58,10 +56,12 @@ def parse_syllabus():
     for page_num in range(len(doc)):
         page = doc.load_page(page_num)
         syllabus_text += page.get_text()
-  
+    
     parsed_data = parse_syllabus_with_ai(syllabus_text)
+    print("Parsed data before returning:", parsed_data)  # Debugging
+    
+    # 'parsed_data' should already be a Python list of dictionaries
     return jsonify({"data": parsed_data})
-
 
 if __name__ == '__main__':
     app.run(debug=True)
