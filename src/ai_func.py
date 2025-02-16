@@ -1,5 +1,6 @@
 import os
 import openai
+import json
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -26,23 +27,28 @@ def parse_syllabus_with_ai(syllabus_text):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    # Now access the content directly as an attribute (not using subscript)
-    try:
-        # Access the message content from the response object
-        message_content = response.choices[0].message.content if hasattr(response.choices[0], 'message') else ''
-        print(f"HERE: {message_content}")
-        return message_content
-    except AttributeError as e:
-        print(f"Error in accessing response: {e}")
-        return ''
-
-
+    # Now access the content directly as an attribute
+    message_content = response.choices[0].message.content if hasattr(response.choices[0], 'message') else ''
+    print(f"Extracted Content: {message_content}")
+    
+    # Parse the response content into a structured format
+    return parse_ai_response(message_content)
 
 def parse_ai_response(response_text):
-    lines = response_text.split("\n")
-    data = []
-    for line in lines:
+    response_text = response_text.strip().split("\n")[1:]
+
+    items = {}
+    for line in response_text:
         parts = line.split(", ")
         if len(parts) == 3:
-            data.append({"name": parts[0], "dueDate": parts[1], "weight": parts[2]})
-    return data
+            name = parts[0].strip()
+            due_date = parts[1].strip()
+            weight = parts[2].strip()
+
+            items[name] = {
+                "Date": due_date,
+                "weight": weight,
+                "grade": ""  # empty grade field
+            }
+    
+    return json.dumps(items, indent=2)
