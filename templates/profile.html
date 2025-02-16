@@ -67,6 +67,32 @@
     </div>
   </section>
 
+  <section id="leveling" class="py-8 fade-in">
+    <div class="max-w-3xl mx-auto px-4 duration-500 ease-out hover:scale-105">
+      <div class="bg-[#21262D] p-4 rounded-lg shadow-md">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-bold text-[#58A6FF]">Level 5</span>
+          <span class="text-sm font-bold text-gray-400">Next Level: 6</span>
+        </div>
+        <div class="relative w-full bg-gray-600 rounded-full h-4">
+          <div id="levelProgress" class="absolute top-0 left-0 h-4 rounded-full bg-[#58A6FF]" style="width: 0;"></div>
+        </div>
+        <p class="mt-1 text-center text-sm text-gray-400">70% to the next level</p>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const progressBar = document.getElementById('levelProgress');
+      setTimeout(() => {
+        progressBar.style.transition = 'width 1.5s ease-out';
+        progressBar.style.width = '70%';
+      }, 500); // Delay to ensure the animation starts after the page loads
+    });
+  </script>
+  
+
   <section id="achievements" class="py-16 fade-in">
     <div class="max-w-5xl mx-auto px-4">
       <h2 class="text-2xl font-bold text-center mb-8">Achievements</h2>
