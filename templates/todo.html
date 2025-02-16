@@ -59,6 +59,7 @@
     <div class="bg-[#21262D] p-6 rounded-lg shadow-md fade-in">
       <form id="taskForm" class="flex flex-wrap gap-4">
         <input type="text" id="taskName" placeholder="Task Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
+        <input type="number" id="weight" placeholder="Weight" min="0" max="100" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         <input type="date" id="dueDate" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         
         <button type="submit" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Add Task</button>
@@ -71,7 +72,9 @@
         <thead class="bg-[#30363D] text-[#E5E5E5]">
           <tr>
             <th class="py-3 px-6 text-left">Task</th>
+            <th class="py-3 px-6 text-left">Weight</th>
             <th class="py-3 px-6 text-left">Due Date</th>
+            <th class="py-3 px-6 text-center">Grade</th>
             <th class="py-3 px-6 text-center">Actions</th>
           </tr>
         </thead>
@@ -102,22 +105,39 @@
       event.preventDefault();
       
       const taskName = document.getElementById('taskName').value;
+      const weight = document.getElementById('weight').value;
       const dueDate = document.getElementById('dueDate').value;
 
-      // Create a new table row for the task
-      const newRow = document.createElement('tr');
-      newRow.innerHTML = `
-        <td class="py-3 px-6">${taskName}</td>
-        <td class="py-3 px-6">${dueDate}</td>
-        <td class="py-3 px-6 text-center">
-          <button class="text-[#FF6363] hover:text-[#E5E5E5] transform transition-transform duration-200 hover:scale-105" onclick="removeTask(this)">Remove</button>
-        </td>
-      `;
-      
-      document.getElementById('taskTableBody').appendChild(newRow);
-
-      // Clear the form fields
-      document.getElementById('taskForm').reset();
+      // Send the task data to Flask backend to save in a JSON file
+      fetch('/add_task', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          task_name: taskName,
+          weight: weight,
+          due_date: dueDate,
+          grade: '' // Initially, the grade is empty
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // If successful, add the new task to the table
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td class="py-3 px-6">${taskName}</td>
+          <td class="py-3 px-6">${weight}</td>
+          <td class="py-3 px-6">${dueDate}</td>
+          <td class="py-3 px-6"></td> <!-- Empty grade initially -->
+          <td class="py-3 px-6 text-center">
+            <button class="text-[#FF6363] hover:text-[#E5E5E5] transform transition-transform duration-200 hover:scale-105" onclick="removeTask(this)">Remove</button>
+          </td>
+        `;
+        
+        document.getElementById('taskTableBody').appendChild(newRow);
+        document.getElementById('taskForm').reset();
+      });
     });
 
     // Remove task function

@@ -12,11 +12,11 @@ import point
 
 app = Flask(__name__)
 
-# Route for the home page 
+# Route for the home page
 @app.route('/')
 def index():
     return render_template('index.html')
- 
+
 @app.route('/profile')
 def profile():
     update_level()
@@ -24,26 +24,36 @@ def profile():
 
 @app.route('/todo')
 def todo():
-    assignments_dict = load_all_assignments()
+    assignments_dict = load_all_assignments()  # Load assignments from JSON file
     return render_template('todo.html', assignments=assignments_dict)
 
-# Route for adding a class
-@app.route('/add_class', methods=['POST'])
-def add_class():
+# Route for adding a new task
+@app.route('/add_task', methods=['POST'])
+def add_task():
     try:
-        new_class = request.get_json()
-        print(f"Received new class data: {new_class}")  # Debugging
+        # Get task details from the request
+        data = request.get_json()
+        task_name = data['task_name']
+        weight = data['weight']
+        due_date = data['due_date']
 
-        if not new_class:
-            return jsonify({"error": "No data provided"}), 400
-        
-        write_comp_to_json(new_class)
-        return jsonify({"message": "Class added successfully"}), 200
+        # Create the task dictionary with the Grade field
+        new_task = {
+            "Assignment": task_name,
+            "Weight (%)": f"{weight}%",
+            "Due Date": due_date,
+            "Grade": ""  # Grade is initially empty
+        }
+
+        # Append to the existing tasks in the JSON file
+        append_to_json([new_task])
+
+        # Return success message
+        return jsonify({"message": "Task added successfully!"}), 200
     except Exception as e:
-        print(f"Error in /add_class route: {e}")  # Debugging
-        return jsonify({"error": "Failed to add class", "message": str(e)}), 500
+        return jsonify({"error": f"Failed to add task: {e}"}), 500
 
-# In app.py
+# Route for entering a grade
 @app.route('/enter_grade', methods=['POST'])
 def enter_grade():
     data = request.get_json()
@@ -77,7 +87,6 @@ def enter_grade():
     set_point(new_points)
     
     return jsonify({"success": True, "message": "Grade entered successfully!"})
-
 
 # Route for parsing the syllabus
 @app.route('/parse_syllabus', methods=['POST'])
