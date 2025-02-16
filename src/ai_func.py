@@ -29,7 +29,6 @@ def parse_syllabus_with_ai(syllabus_text):
 
     # Now access the content directly as an attribute
     message_content = response.choices[0].message.content if hasattr(response.choices[0], 'message') else ''
-    print(f"Extracted Content: {message_content}")
     
     # Parse the response content into a structured format
     return parse_ai_response(message_content)
