@@ -8,8 +8,7 @@ from json_func import read_json, append_to_json, get_assignment_by_name, load_al
 import chardet
 from ai_func import *
 import fitz
-import point
-
+from point import *
 app = Flask(__name__)
 
 # Route for the home page

@@ -6,7 +6,7 @@ def grade_to_point(grade, weight):
     return (grade * weight) / 10
 
 def get_point():
-    with open("points.json", "r") as file:
+    with open(datapath, "r") as file:
         data = json.load(file)
         return data["Points"]
 
@@ -27,5 +27,5 @@ def set_level(level):
 
 def update_level():
     point = get_point()
-    level = round(point / 100)
+    level = round(int(point) / 100)
     set_level(level)
