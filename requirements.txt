@@ -1,1 +1,4 @@
 chardet
+openai
+flask
+fitz
