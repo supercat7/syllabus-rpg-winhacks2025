@@ -1,35 +1,41 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
-import json
+from flask import Flask, request, jsonify
+from werkzeug.utils import secure_filename
+from docx import Document
+import PyPDF2
 import os
-import sys
-sys.path.append("./src")
-from json_func import read_json, write_comp_to_json 
-
+from ai import parse_syllabus_with_ai  # Import the function from ai.py
 
 app = Flask(__name__)
 
-# Save data to the .json file
-def save_classes(data):
-    write_comp_to_json(data)
+@app.route('/parse_syllabus', methods=['POST'])
+def parse_syllabus():
+    if 'syllabusFile' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+    file = request.files['syllabusFile']
+    filename = secure_filename(file.filename)
+    
+    if filename.endswith('.docx'):
+        text = extract_text_from_docx(file)
+    elif filename.endswith('.pdf'):
+        text = extract_text_from_pdf(file)
+    else:
+        return jsonify({"error": "Unsupported file format"}), 400
 
-@app.route('/add_class', methods=['POST'])
-def add_class():
-    try:
-        # Parse the incoming JSON request
-        new_class = request.get_json()
+    # Pass the extracted text to the AI for parsing
+    extracted_data = parse_syllabus_with_ai(text)
+    return jsonify({"data": extracted_data})
 
-        if not new_class:
-            return jsonify({"error": "No data provided"}), 400
-        
-        save_classes(new_class)
-        return jsonify({"message": "Class added successfully"}), 200
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Failed to add class"}), 500
+def extract_text_from_docx(file):
+    doc = Document(file)
+    return "\n".join([para.text for para in doc.paragraphs])
+
+def extract_text_from_pdf(file):
+    reader = PyPDF2.PdfReader(file)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() or ""
+    return text
 
 if __name__ == '__main__':
     app.run(debug=True)
