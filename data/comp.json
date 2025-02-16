@@ -1,0 +1,40 @@
+[
+    [
+        {
+            "Assignment": "Lecture Assignments (Lecs)",
+            "Due Date": "Weekly",
+            "Weight (%)": "20%",
+            "Grade": ""
+        },
+        {
+            "Assignment": "Lab Assignments (Labs)",
+            "Due Date": "Weekly",
+            "Weight (%)": "20%",
+            "Grade": ""
+        },
+        {
+            "Assignment": "Midterm Exam",
+            "Due Date": "October 21, 2024",
+            "Weight (%)": "30%",
+            "Grade": ""
+        },
+        {
+            "Assignment": "Final Exam",
+            "Due Date": "December 07 - 18, 2024",
+            "Weight (%)": "30%",
+            "Grade": ""
+        },
+        {
+            "Assignment": "Discussion Board (Bonus+)",
+            "Due Date": "No specific date",
+            "Weight (%)": "5%",
+            "Grade": ""
+        },
+        {
+            "Assignment": "Please note that I've excluded the exam dates for the Final Exam as they are a range of dates. If you'd like",
+            "Due Date": "I can extract the specific dates for each exam",
+            "Weight (%)": "but it would require some additional parsing of the text.",
+            "Grade": ""
+        }
+    ]
+]
