@@ -28,38 +28,31 @@
 </head>
 <body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col page-fade-in">
 
-<!-- Navigation -->
-<nav class="py-4 flex justify-center">
-  <div class="bg-[#21262D] px-10 py-2 rounded-full shadow-lg">
-    <ul class="flex items-center space-x-10">
-      <li class="flex items-center space-x-2 group">
-        <div class="flex items-center space-x-2 transform transition-transform duration-200 group-hover:-translate-y-1">
+  <!-- Navigation -->
+  <nav class="py-4 flex justify-center">
+    <div class="bg-[#21262D] px-10 py-2 rounded-full shadow-lg">
+      <ul class="flex items-center space-x-10">
+        <li class="flex items-center space-x-2">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#E5E5E5]">
             <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
           </svg>
-          <a href="{{ url_for('index') }}" class="text-[#E5E5E5] hover:text-[#58A6FF]">Home</a>
-        </div>
-      </li>
-      <li class="flex items-center space-x-2 group">
-        <div class="flex items-center space-x-2 transform transition-transform duration-200 group-hover:-translate-y-1">
+          <a href="{{ url_for('index') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Home</a>
+        </li>
+        <li class="flex items-center space-x-2">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#E5E5E5]">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
           </svg>
-          <a href="{{ url_for('todo') }}" class="text-[#E5E5E5] hover:text-[#58A6FF]">Tasks</a>
-        </div>
-      </li>
-      <li class="flex items-center space-x-2 group">
-        <div class="flex items-center space-x-2 transform transition-transform duration-200 group-hover:-translate-y-1">
+          <a href="{{ url_for('todo') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Tasks</a>
+        </li>
+        <li class="flex items-center space-x-2">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#E5E5E5]">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
-          <a href="{{ url_for('profile') }}" class="text-[#E5E5E5] hover:text-[#58A6FF]">Profile</a>
-        </div>
-      </li>        
-    </ul>
-  </div>
-</nav>
-
+          <a href="{{ url_for('profile') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Profile</a>
+        </li>        
+      </ul>
+    </div>
+  </nav>
 
   <!-- Hero Section -->
   <section class="text-center py-32 flex-grow flex items-center justify-center">
@@ -92,29 +85,35 @@
   </div>
 
 <!-- Results Modal -->
-<div id="resultsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-  <div class="bg-[#21262D] rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="resultsModalContent">
-    <h2 class="text-2xl font-bold mb-4 text-center">Parsed Syllabus Results</h2>
-    <table class="min-w-full bg-[#21262D] text-[#E5E5E5] border border-gray-700">
-      <thead>
-        <tr>
-          <th class="px-4 py-2 text-left">Assignment/Exam</th>
-          <th class="px-4 py-2 text-left">Due Date</th>
-          <th class="px-4 py-2 text-left">Weight (%)</th>
-        </tr>
-      </thead>
-      <tbody id="resultsTableBody">
-        <!-- Data will be dynamically inserted here -->
-      </tbody>
-    </table>
-
-    <!-- Notes Section -->
-    <div id="notesBox" class="mt-4 bg-gray-800 text-gray-200 p-4 rounded hidden">
-      <!-- Notes will be dynamically inserted here by JavaScript -->
+<div id="resultsModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center hidden">
+  <div class="bg-[#161B22] rounded-2xl shadow-2xl w-[90%] max-w-4xl p-8 transform transition-transform scale-90 overflow-hidden" id="resultsModalContent">
+    <h2 class="text-3xl font-bold mb-6 text-center text-[#58A6FF]">Parsed Syllabus Results</h2>
+    <div class="overflow-x-auto max-h-[400px] border border-gray-700 rounded-lg">
+      <table class="min-w-full bg-[#1E2228] text-[#E5E5E5] border-collapse">
+        <thead class="bg-[#2A2F35]">
+          <tr>
+            <th class="px-6 py-4 text-left font-semibold uppercase tracking-wide">Assignment/Exam</th>
+            <th class="px-6 py-4 text-left font-semibold uppercase tracking-wide">Due Date</th>
+            <th class="px-6 py-4 text-left font-semibold uppercase tracking-wide">Weight (%)</th>
+          </tr>
+        </thead>
+        <tbody id="resultsTableBody" class="divide-y divide-gray-600">
+        </tbody>
+      </table>
     </div>
 
-    <div class="mt-4 text-center">
-      <button onclick="closeResultsModal()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transform transition-transform duration-200 hover:-translate-y-1">Close</button>
+    <!-- Note Section -->
+    <div class="mt-6 bg-[#1E2228] p-4 rounded-lg border border-gray-700">
+      <h3 class="text-lg font-semibold text-[#58A6FF] mb-2">Note:</h3>
+      <p class="text-sm leading-relaxed text-[#E5E5E5]" id="noteSection">
+        Due dates and times are based on the syllabus. Weights represent the percentage of the overall grade for each evaluation.
+      </p>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button onclick="closeResultsModal()" class="bg-[#3A3F47] text-white px-6 py-3 rounded-lg hover:bg-[#4C525A] transform transition-transform duration-200 hover:-translate-y-1 shadow-md">
+        Close
+      </button>
     </div>
   </div>
 </div>
