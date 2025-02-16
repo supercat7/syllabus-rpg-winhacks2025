@@ -26,17 +26,14 @@ def todo():
     assignments_dict = load_all_assignments()  # Load assignments from JSON file
     return render_template('todo.html', assignments=assignments_dict)
 
-# Route for adding a new task
 @app.route('/add_task', methods=['POST'])
 def add_task():
     try:
-        # Get task details from the request
         data = request.get_json()
         task_name = data['task_name']
         weight = data['weight']
         due_date = data['due_date']
 
-        # Create the task dictionary with the Grade field
         new_task = {
             "Assignment": task_name,
             "Weight (%)": f"{weight}%",
@@ -44,50 +41,58 @@ def add_task():
             "Grade": ""  # Grade is initially empty
         }
 
-        # Append to the existing tasks in the JSON file
-        append_to_json([new_task])
+        current_data = read_json()
+        
+        current_data.append([new_task])
+        
+        with open('./data/comp.json', 'w') as file:
+            json.dump(current_data, file, indent=4)
 
-        # Return success message
         return jsonify({"message": "Task added successfully!"}), 200
     except Exception as e:
         return jsonify({"error": f"Failed to add task: {e}"}), 500
 
-# Route for entering a grade
+
+
 @app.route('/enter_grade', methods=['POST'])
 def enter_grade():
-    data = request.get_json()
-    assignment_name = data.get('assignment_name')
-    grade = float(data.get('grade'))
-    
-    assignment = get_assignment_by_name(assignment_name)
-    if not assignment:
-        return jsonify({"success": False, "message": "Assignment not found"})
-    
-    weight = float(assignment["Weight (%)"].replace('%', ''))  # Extract weight as a number
-    points = grade_to_point(grade, weight)
-    
-    # Update the assignment with the calculated points
-    assignment["Grade"] = points
-    
-    # Remove the assignment from the list
-    data = read_json()
-    for assignment_group in data:
-        if assignment in assignment_group:
-            assignment_group.remove(assignment)
-            break
-    
-    # Save the updated JSON
-    with open('./data/comp.json', 'w') as file:
-        json.dump(data, file, indent=4)
-    
-    # Update points in the points.json file (if needed)
-    current_points = get_point()  # Get current points
-    new_points = current_points + points
-    set_point(new_points)
-    
-    return jsonify({"success": True, "message": "Grade entered successfully!"})
+    try:
+        data = request.get_json()  # Get the request JSON data
+        assignment_name = data.get('assignment_name')  # Get assignment name from the request
+        grade = float(data.get('grade'))  # Get the grade and ensure it's a float
 
-# Route for parsing the syllabus
+        # Read the current data from the JSON file
+        assignments_data = read_json()
+
+        # Flag to check if we found the assignment
+        assignment_found = False
+
+        # Loop through all assignment groups
+        for assignment_group in assignments_data:
+            for assignment in assignment_group:
+                if assignment.get("Assignment") == assignment_name:
+                    # Update the grade if assignment is found
+                    assignment["Grade"] = grade
+                    assignment_found = True
+                    break
+
+            if assignment_found:
+                break
+
+        # If no assignment was found, return an error response
+        if not assignment_found:
+            return jsonify({"success": False, "message": "Assignment not found"}), 404
+
+        # Write the updated data back to the JSON file
+        with open(datapath, 'w') as file:
+            json.dump(assignments_data, file, indent=4)
+
+        return jsonify({"success": True, "message": "Grade entered successfully!"})
+
+    except Exception as e:
+        return jsonify({"error": f"Failed to enter grade: {e}"}), 500
+
+
 @app.route('/parse_syllabus', methods=['POST'])
 def parse_syllabus():
     if 'syllabusFile' not in request.files:

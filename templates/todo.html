@@ -66,8 +66,9 @@
       </form>
     </div>
 
-    <!-- Task Table -->
+    <!-- Existing Assignments -->
     <div class="mt-8 fade-in">
+      <h2 class="text-xl font-semibold text-[#E5E5E5] mb-4">Existing Assignments</h2>
       <table class="w-full bg-[#21262D] shadow-md rounded-lg">
         <thead class="bg-[#30363D] text-[#E5E5E5]">
           <tr>
@@ -78,14 +79,23 @@
             <th class="py-3 px-6 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody id="taskTableBody">
-          <!-- Tasks will be added dynamically -->
+        <tbody>
+          {% for assignment_name, assignment in assignments.items() %}
+            <tr>
+              <td class="py-3 px-6">{{ assignment['Assignment'] }}</td>
+              <td class="py-3 px-6">{{ assignment['Weight (%)'] }}</td>
+              <td class="py-3 px-6">{{ assignment['Due Date'] }}</td>
+              <td class="py-3 px-6">{{ assignment['Grade'] }}</td>
+              <td class="py-3 px-6 text-center">
+                <button class="text-[#FF6363] hover:text-[#E5E5E5] transform transition-transform duration-200 hover:scale-105" onclick="removeTask(this)">Remove</button>
+              </td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- Sticky Footer -->
   <footer class="bg-[#0D1117] text-[#E5E5E5] py-8 mt-auto fade-in">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
@@ -96,56 +106,9 @@
     // Add 'show' class to elements when the page loads
     window.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.fade-in').forEach(element => {
-        setTimeout(() => element.classList.add('show'), 200);
+        setTimeout(() => element.classList.add('show'), 100);
       });
     });
-
-    // Handle form submission and add tasks dynamically
-    document.getElementById('taskForm').addEventListener('submit', function (event) {
-      event.preventDefault();
-      
-      const taskName = document.getElementById('taskName').value;
-      const weight = document.getElementById('weight').value;
-      const dueDate = document.getElementById('dueDate').value;
-
-      // Send the task data to Flask backend to save in a JSON file
-      fetch('/add_task', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          task_name: taskName,
-          weight: weight,
-          due_date: dueDate,
-          grade: '' // Initially, the grade is empty
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        // If successful, add the new task to the table
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-          <td class="py-3 px-6">${taskName}</td>
-          <td class="py-3 px-6">${weight}</td>
-          <td class="py-3 px-6">${dueDate}</td>
-          <td class="py-3 px-6"></td> <!-- Empty grade initially -->
-          <td class="py-3 px-6 text-center">
-            <button class="text-[#FF6363] hover:text-[#E5E5E5] transform transition-transform duration-200 hover:scale-105" onclick="removeTask(this)">Remove</button>
-          </td>
-        `;
-        
-        document.getElementById('taskTableBody').appendChild(newRow);
-        document.getElementById('taskForm').reset();
-      });
-    });
-
-    // Remove task function
-    function removeTask(button) {
-      const row = button.closest('tr');
-      row.remove();
-    }
   </script>
-
 </body>
 </html>
