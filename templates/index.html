@@ -6,8 +6,29 @@
   <title>Syllabus RPG</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/static/script.js" defer></script>
+  <style>
+    .page-fade-in {
+      animation: fadeInPage 1.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInPage {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .glow {
+      color: #E5E5E5;
+      text-shadow: 0 0 10px #58A6FF, 0 0 20px #58A6FF, 0 0 30px #58A6FF;
+      transition: text-shadow 0.5s ease-in-out;
+    }
+
+    .glow:hover {
+      text-shadow: 0 0 20px #58A6FF, 0 0 40px #58A6FF, 0 0 60px #58A6FF;
+    }
+  </style>
 </head>
-<body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col">
+<body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col page-fade-in">
 
   <!-- Navigation -->
   <nav class="py-4 flex justify-center">
@@ -23,7 +44,9 @@
   <!-- Hero Section -->
   <section class="text-center py-32 flex-grow flex items-center justify-center">
     <div class="max-w-3xl mx-auto px-4">
-      <h1 class="text-5xl font-bold mb-6">Welcome to Syllabus RPG</h1>
+      <h1 class="text-5xl font-bold mb-6">
+        Welcome to <span class="glow">Syllabus RPG</span>
+      </h1>
       <p class="text-lg mb-10">Transform your syllabus into a gamified productivity tool.</p>
       <a href="#" onclick="openModal()" class="inline-block bg-[#58A6FF] text-[#0D1117] py-3 px-8 rounded-lg text-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Upload Syllabus</a>
     </div>

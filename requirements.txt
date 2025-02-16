@@ -2,3 +2,4 @@ chardet
 openai
 flask
 fitz
+python-dotenv
