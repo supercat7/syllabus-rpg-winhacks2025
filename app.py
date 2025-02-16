@@ -4,7 +4,7 @@ import os
 import sys
 import webbrowser
 sys.path.append("./src")
-from json_func import read_json, append_to_json
+from json_func import read_json, append_to_json, get_assignment_by_name, load_all_assignments
 import chardet
 from ai_func import *
 import fitz
@@ -58,7 +58,6 @@ def parse_syllabus():
         syllabus_text += page.get_text()
     
     parsed_data = parse_syllabus_with_ai(syllabus_text)
-    print("Parsed data before returning:", parsed_data)  # Debugging
     
     del parsed_data[0]
     append_to_json(parsed_data)

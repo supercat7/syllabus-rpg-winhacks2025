@@ -1,4 +1,5 @@
-import json_func
+import json
+
 datapath = "./data/points.json"
 
 def grade_to_point(grade, weight):
@@ -17,4 +18,9 @@ def set_point(point):
     with open(datapath, "w") as j:
         json.dump(data, j, indent=4)
 
-
+def set_level(level):
+    with open(datapath, "r") as j:
+        data = json.load(j)
+        data["Level"] = level
+    with open(datapath, "w") as j:
+        json.dump(data, j, indent=4)
