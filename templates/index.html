@@ -26,44 +26,53 @@
     <div class="max-w-7xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-semibold">Welcome to Syllabus RPG</h1>
       <p class="mt-4 text-lg">Transform your syllabus into a gamified productivity tool.</p>
-      <a href="#" onclick="openModal()" class="mt-6 inline-block bg-white text-blue-700 py-2 px-6 rounded-lg text-lg hover:bg-gray-200 transition">Add Class</a>
+      <a href="#" onclick="openModal()" class="mt-6 inline-block bg-white text-blue-700 py-2 px-6 rounded-lg text-lg hover:bg-gray-200 transition">Upload Syllabus</a>
     </div>
   </section>
 
-  <!-- Modal -->
+  <!-- Modal for File Upload -->
   <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="modal-content">
-      <h2 class="text-2xl font-bold mb-4 text-center">Add New Class</h2>
+      <h2 class="text-2xl font-bold mb-4 text-center">Upload Syllabus</h2>
       
-      <form id="addClassForm" method="POST" action="/add_class">
-        <!-- Title -->
+      <form id="uploadSyllabusForm" enctype="multipart/form-data">
         <div class="mb-4">
-          <label for="title" class="block text-gray-700 font-medium">Title</label>
-          <input type="text" name="title" id="title" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Assignment, Midterm, Exam">
+          <label for="syllabusFile" class="block text-gray-700 font-medium">Select Syllabus File (.pdf or .docx)</label>
+          <input type="file" name="syllabusFile" id="syllabusFile" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" accept=".pdf,.docx">
         </div>
 
-        <!-- Weight -->
-        <div class="mb-4">
-          <label for="weight" class="block text-gray-700 font-medium">Weight (%)</label>
-          <input type="number" name="weight" id="weight" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter weight (e.g., 20)">
-        </div>
-
-        <!-- Due Date -->
-        <div class="mb-4">
-          <label for="dueDate" class="block text-gray-700 font-medium">Due Date</label>
-          <input type="date" name="dueDate" id="dueDate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-        </div>
-
-        <!-- Submit and Cancel Buttons -->
         <div class="flex justify-end space-x-4">
           <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Cancel</button>
-          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Add</button>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Upload</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Modal for Parsed Results -->
+  <div id="resultsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 transform transition-transform scale-90" id="resultsModalContent">
+      <h2 class="text-2xl font-bold mb-4 text-center">Extracted Information</h2>
+      
+      <table class="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 border-b">Assignment/Exam</th>
+            <th class="px-4 py-2 border-b">Due Date</th>
+            <th class="px-4 py-2 border-b">Weight (%)</th>
+          </tr>
+        </thead>
+        <tbody id="resultsTableBody">
+          <!-- Parsed results will be dynamically added here -->
+        </tbody>
+      </table>
+      
+      <div class="flex justify-end mt-6">
+        <button onclick="closeResultsModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Close</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="bg-blue-600 text-white py-8">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
