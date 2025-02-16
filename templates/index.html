@@ -7,12 +7,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/static/script.js" defer></script>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+<body class="bg-[#1E1E2F] text-[#F4F4F9] min-h-screen flex flex-col">
 
-  <!-- Navigation -->
-  <nav class="bg-blue-600 py-4">
+  <!-- Navigation with Shadow -->
+  <nav class="bg-[#2D91F2] py-5 shadow-lg shadow-[#00000033]">
     <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-      <div class="text-white font-bold text-lg">Syllabus RPG</div>
+      <div class="text-[#F4F4F9] font-bold text-lg">Syllabus RPG</div>
       <div class="space-x-6">
         <a href="{{ url_for('index') }}" class="text-white hover:text-gray-200">Home</a>
         <a href="{{ url_for('profile') }}" class="text-white hover:text-gray-200">Profile</a>
@@ -22,28 +22,28 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="bg-blue-700 text-white text-center py-32 flex-grow flex items-center justify-center">
+  <section class="bg-[#2D91F2] text-[#F4F4F9] text-center py-32 flex-grow flex items-center justify-center">
     <div class="max-w-7xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-semibold">Welcome to Syllabus RPG</h1>
       <p class="mt-4 text-lg">Transform your syllabus into a gamified productivity tool.</p>
-      <a href="#" onclick="openModal()" class="mt-6 inline-block bg-white text-blue-700 py-2 px-6 rounded-lg text-lg hover:bg-gray-200 transition">Upload Syllabus</a>
+      <a href="#" onclick="openModal()" class="mt-6 inline-block bg-[#4ECCA3] text-[#1E1E2F] py-2 px-6 rounded-lg text-lg hover:bg-[#FF6B6B] transition">Upload Syllabus</a>
     </div>
   </section>
 
   <!-- Modal for File Upload -->
   <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="modal-content">
+    <div class="bg-[#1E1E2F] rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="modal-content">
       <h2 class="text-2xl font-bold mb-4 text-center">Upload Syllabus</h2>
       
       <form id="uploadSyllabusForm" enctype="multipart/form-data">
         <div class="mb-4">
-          <label for="syllabusFile" class="block text-gray-700 font-medium">Select Syllabus File (.pdf or .docx)</label>
-          <input type="file" name="syllabusFile" id="syllabusFile" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" accept=".pdf,.docx">
+          <label for="syllabusFile" class="block text-[#F4F4F9] font-medium">Select Syllabus File (.pdf or .docx)</label>
+          <input type="file" name="syllabusFile" id="syllabusFile" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-[#4ECCA3] focus:border-[#4ECCA3]" accept=".pdf,.docx">
         </div>
 
         <div class="flex justify-end space-x-4">
           <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Cancel</button>
-          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Upload</button>
+          <button type="submit" class="bg-[#4ECCA3] text-[#1E1E2F] px-4 py-2 rounded-lg hover:bg-[#FF6B6B] transition">Upload</button>
         </div>
       </form>
     </div>
@@ -51,10 +51,10 @@
 
   <!-- Modal for Parsed Results -->
   <div id="resultsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 transform transition-transform scale-90" id="resultsModalContent">
+    <div class="bg-[#1E1E2F] rounded-lg shadow-lg w-3/4 p-8 transform transition-transform scale-90" id="resultsModalContent">
       <h2 class="text-2xl font-bold mb-4 text-center">Extracted Information</h2>
       
-      <table class="min-w-full bg-white border border-gray-300">
+      <table class="min-w-full bg-[#1E1E2F] border border-[#F4F4F9] text-[#F4F4F9]">
         <thead>
           <tr>
             <th class="px-4 py-2 border-b">Assignment/Exam</th>
@@ -68,12 +68,12 @@
       </table>
       
       <div class="flex justify-end mt-6">
-        <button onclick="closeResultsModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Close</button>
+        <button onclick="closeResultsModal()" class="bg-[#4ECCA3] text-[#1E1E2F] px-4 py-2 rounded-lg hover:bg-[#FF6B6B] transition">Close</button>
       </div>
     </div>
   </div>
 
-  <footer class="bg-blue-600 text-white py-8">
+  <footer class="bg-[#2D91F2] text-[#F4F4F9] py-8">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
