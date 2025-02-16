@@ -24,3 +24,8 @@ def set_level(level):
         data["Level"] = level
     with open(datapath, "w") as j:
         json.dump(data, j, indent=4)
+
+def update_level():
+    point = get_point()
+    level = round(point / 100)
+    set_level(level)

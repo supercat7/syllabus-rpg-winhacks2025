@@ -8,6 +8,7 @@ from json_func import read_json, append_to_json, get_assignment_by_name, load_al
 import chardet
 from ai_func import *
 import fitz
+import point
 
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ def index():
 # Route for the profile page 
 @app.route('/profile')
 def profile():
+    update_level()
     return render_template('profile.html')
 
 # Route for the To-Do-List page
