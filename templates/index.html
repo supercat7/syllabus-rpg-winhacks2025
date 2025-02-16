@@ -14,9 +14,9 @@
     <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
       <div class="text-[#F4F4F9] font-bold text-lg">Syllabus RPG</div>
       <div class="space-x-6">
-        <a href="#" class="text-[#F4F4F9] hover:text-[#4ECCA3]">Home</a>
-        <a href="todo.html" class="text-[#F4F4F9] hover:text-[#4ECCA3]">Todo</a>
-        <a href="profile.html" class="text-[#F4F4F9] hover:text-[#4ECCA3]">Profile</a>
+        <a href="{{ url_for('index') }}" class="text-white hover:text-gray-200">Home</a>
+        <a href="{{ url_for('profile') }}" class="text-white hover:text-gray-200">Profile</a>
+        <a href="{{ url_for('todo') }}" class="text-white hover:text-gray-200">To-Do List</a>
       </div>
     </div>
   </nav>
