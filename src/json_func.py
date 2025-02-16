@@ -16,8 +16,7 @@ def read_json():
 
 def append_to_json(new_data):
     for i in range(len(new_data)):
-        new_data[i]["Grade"] = None
-    print(new_data)
+        new_data[i]["Grade"] = ""
 
     data = read_json()    
     data.append(new_data)
