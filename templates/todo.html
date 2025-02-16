@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do List | Syllabus RPG</title>
+  <title>Grade Tracker | Syllabus RPG</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/static/todo.js" defer></script>
 </head>
 <body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
 
@@ -16,25 +15,48 @@
       <div class="space-x-6">
         <a href="{{ url_for('index') }}" class="text-white hover:text-gray-200">Home</a>
         <a href="{{ url_for('profile') }}" class="text-white hover:text-gray-200">Profile</a>
-        <a href="{{ url_for('todo') }}" class="text-white hover:text-gray-200">To-Do List</a>
+        <a href="{{ url_for('todo') }}" class="text-white hover:text-gray-200">Grade Tracker</a>
       </div>
     </div>
   </nav>
 
-  <!-- To-Do List Section -->
+  <!-- Grade Tracker Section -->
   <section class="max-w-5xl mx-auto py-16 px-4 flex-grow">
-    <h1 class="text-4xl font-bold text-center mb-8">To-Do List</h1>
+    <h1 class="text-4xl font-bold text-center mb-8">Tasks</h1>
     
-    <!-- Task Input -->
-    <div class="flex items-center mb-6">
-      <input type="text" id="taskInput" placeholder="Add a new task" class="flex-grow border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
-      <button id="addTaskBtn" class="bg-blue-600 text-white py-2 px-6 ml-4 rounded-lg hover:bg-blue-700 transition">Add Task</button>
+    <!-- Grade Input Form -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <form id="gradeForm" class="flex flex-wrap gap-4">
+        <input type="text" id="className" placeholder="Class Name" required class="flex-grow border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
+
+        <input type="text" id="taskName" placeholder="Task Name" required class="flex-grow border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
+        
+        <input type="number" id="percentage" placeholder="Percentage" min="0" max="100" required class="border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
+        
+        <input type="date" id="dueDate" required class="border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
+        
+        
+        <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition">Add Entry</button>
+      </form>
     </div>
-    
-    <!-- Task List -->
-    <ul id="taskList" class="bg-white rounded-lg shadow-md p-6 space-y-4">
-      <!-- Tasks will be dynamically added here -->
-    </ul>
+
+    <!-- Grade Table -->
+    <div class="mt-8">
+      <table class="w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-blue-600 text-white">
+          <tr>
+            <th class="py-3 px-6 text-left">Class</th>
+            <th class="py-3 px-6 text-left">Task</th>
+            <th class="py-3 px-6 text-left">Percentage of Final Grade</th>
+            <th class="py-3 px-6 text-left">Due Date</th>
+            <th class="py-3 px-6 text-center">Done??</th>
+          </tr>
+        </thead>
+        <tbody id="gradeTableBody">
+          <!-- Entries will be added dynamically -->
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <!-- Sticky Footer -->
@@ -43,6 +65,57 @@
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    document.getElementById("gradeForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get input values
+      let className = document.getElementById("className").value;
+      let taskName = document.getElementById("taskName").value;
+      let percentage = document.getElementById("percentage").value;
+      let dueDate = document.getElementById("dueDate").value;
+
+      // Validate input
+      if (!className || !taskName || !percentage || !dueDate) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // Get table body
+      let tableBody = document.getElementById("gradeTableBody");
+
+      // Create a new row
+      let newRow = tableBody.insertRow();
+
+      // Insert cells with values
+      let classCell = newRow.insertCell(0);
+      let taskCell = newRow.insertCell(1);
+      let percentCell = newRow.insertCell(2);
+      let dateCell = newRow.insertCell(3);
+      let actionCell = newRow.insertCell(4);
+
+      classCell.textContent = className;
+      taskCell.textContent = taskName;
+      percentCell.textContent = percentage + "%";
+      dateCell.textContent = dueDate;
+
+      // Add Delete Button
+      let deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Done!!";
+      deleteBtn.className = "bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 transition";
+      deleteBtn.onclick = function () {
+        tableBody.removeChild(newRow);
+      };
+      actionCell.appendChild(deleteBtn);
+      actionCell.className = "text-center";
+
+      // Clear input fields
+      document.getElementById("className").value = "";
+      document.getElementById("percentage").value = "";
+      document.getElementById("dueDate").value = "";
+    });
+  </script>
 
 </body>
 </html>
