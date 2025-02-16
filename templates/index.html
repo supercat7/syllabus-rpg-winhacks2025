@@ -7,7 +7,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/static/script.js" defer></script>
   <style>
-    /* Your existing styles */
+    .page-fade-in {
+      animation: fadeInPage 1.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInPage {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .glow {
+      color: #E5E5E5;
+      text-shadow: 0 0 10px #58A6FF, 0 0 20px #58A6FF, 0 0 30px #58A6FF;
+      transition: text-shadow 0.5s ease-in-out;
+    }
+
+    .glow:hover {
+      text-shadow: 0 0 20px #58A6FF, 0 0 40px #58A6FF, 0 0 60px #58A6FF;
+    }
   </style>
 </head>
 <body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col page-fade-in">
@@ -50,31 +68,6 @@
           <button type="submit" class="bg-[#58A6FF] text-[#0D1117] px-4 py-2 rounded-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Upload</button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- Results Table (New Section) -->
-  <div id="resultsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-[#21262D] rounded-lg shadow-lg w-96 p-8 transform transition-transform scale-90" id="resultsModalContent">
-      <h2 class="text-2xl font-bold mb-4 text-center">Parsed Syllabus Results</h2>
-
-      <!-- Table to display the parsed syllabus data -->
-      <table class="min-w-full bg-[#21262D] text-[#E5E5E5] border border-gray-700">
-        <thead>
-          <tr>
-            <th class="px-4 py-2 text-left">Assignment/Exam</th>
-            <th class="px-4 py-2 text-left">Due Date</th>
-            <th class="px-4 py-2 text-left">Weight (%)</th>
-          </tr>
-        </thead>
-        <tbody id="resultsTableBody">
-          <!-- Data will be inserted here dynamically by JavaScript -->
-        </tbody>
-      </table>
-
-      <div class="mt-4 text-center">
-        <button onclick="closeResultsModal()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transform transition-transform duration-200 hover:-translate-y-1">Close</button>
-      </div>
     </div>
   </div>
 
