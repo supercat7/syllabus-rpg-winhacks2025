@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grade Tracker | Syllabus RPG</title>
+  <title>Tasks | Syllabus RPG</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+<body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col">
 
   <!-- Navigation -->
-  <nav class="bg-blue-600 py-4">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-      <div class="text-white font-bold text-lg">Syllabus RPG</div>
-      <div class="space-x-6">
-        <a href="{{ url_for('index') }}" class="text-white hover:text-gray-200">Home</a>
-        <a href="{{ url_for('profile') }}" class="text-white hover:text-gray-200">Profile</a>
-        <a href="{{ url_for('todo') }}" class="text-white hover:text-gray-200">Grade Tracker</a>
-      </div>
+  <nav class="py-4 flex justify-center">
+    <div class="bg-[#21262D] px-10 py-2 rounded-full shadow-lg">
+      <ul class="flex items-center space-x-10">
+        <li><a href="{{ url_for('index') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Home</a></li>
+        <li><a href="{{ url_for('todo') }}" class="text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Tasks</a></li>
+        <li><a href="{{ url_for('profile') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Profile</a></li>
+      </ul>
     </div>
   </nav>
 
@@ -25,31 +24,27 @@
     <h1 class="text-4xl font-bold text-center mb-8">Tasks</h1>
     
     <!-- Grade Input Form -->
-    <div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="bg-[#21262D] p-6 rounded-lg shadow-md">
       <form id="gradeForm" class="flex flex-wrap gap-4">
-        <input type="text" id="className" placeholder="Class Name" required class="flex-grow border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
-
-        <input type="text" id="taskName" placeholder="Task Name" required class="flex-grow border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
+        <input type="text" id="className" placeholder="Class Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
+        <input type="text" id="taskName" placeholder="Task Name" required class="flex-grow bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
+        <input type="number" id="percentage" placeholder="Percentage" min="0" max="100" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
+        <input type="date" id="dueDate" required class="bg-[#0D1117] border border-gray-600 rounded-lg py-2 px-4 focus:ring-[#58A6FF] focus:border-[#58A6FF] text-[#E5E5E5]">
         
-        <input type="number" id="percentage" placeholder="Percentage" min="0" max="100" required class="border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
-        
-        <input type="date" id="dueDate" required class="border border-gray-300 rounded-lg py-2 px-4 focus:ring-blue-500 focus:border-blue-500">
-        
-        
-        <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition">Add Entry</button>
+        <button type="submit" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg hover:bg-[#1F6FEB] transition">Add Entry</button>
       </form>
     </div>
 
     <!-- Grade Table -->
     <div class="mt-8">
-      <table class="w-full bg-white shadow-md rounded-lg">
-        <thead class="bg-blue-600 text-white">
+      <table class="w-full bg-[#21262D] shadow-md rounded-lg">
+        <thead class="bg-[#30363D] text-[#E5E5E5]">
           <tr>
             <th class="py-3 px-6 text-left">Class</th>
             <th class="py-3 px-6 text-left">Task</th>
             <th class="py-3 px-6 text-left">Percentage of Final Grade</th>
             <th class="py-3 px-6 text-left">Due Date</th>
-            <th class="py-3 px-6 text-center">Done??</th>
+            <th class="py-3 px-6 text-center">Done?</th>
           </tr>
         </thead>
         <tbody id="gradeTableBody">
@@ -60,7 +55,7 @@
   </section>
 
   <!-- Sticky Footer -->
-  <footer class="bg-blue-600 text-white py-8 mt-auto">
+  <footer class="bg-[#0D1117] text-[#E5E5E5] py-8 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
@@ -70,50 +65,34 @@
     document.getElementById("gradeForm").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
 
-      // Get input values
       let className = document.getElementById("className").value;
       let taskName = document.getElementById("taskName").value;
       let percentage = document.getElementById("percentage").value;
       let dueDate = document.getElementById("dueDate").value;
 
-      // Validate input
       if (!className || !taskName || !percentage || !dueDate) {
         alert("Please fill in all fields.");
         return;
       }
 
-      // Get table body
       let tableBody = document.getElementById("gradeTableBody");
-
-      // Create a new row
       let newRow = tableBody.insertRow();
 
-      // Insert cells with values
-      let classCell = newRow.insertCell(0);
-      let taskCell = newRow.insertCell(1);
-      let percentCell = newRow.insertCell(2);
-      let dateCell = newRow.insertCell(3);
-      let actionCell = newRow.insertCell(4);
+      newRow.innerHTML = `
+        <td class="px-6 py-4 border-b border-gray-700">${className}</td>
+        <td class="px-6 py-4 border-b border-gray-700">${taskName}</td>
+        <td class="px-6 py-4 border-b border-gray-700">${percentage}%</td>
+        <td class="px-6 py-4 border-b border-gray-700">${dueDate}</td>
+        <td class="px-6 py-4 border-b border-gray-700 text-center">
+          <button class="bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 transition">Done!</button>
+        </td>
+      `;
 
-      classCell.textContent = className;
-      taskCell.textContent = taskName;
-      percentCell.textContent = percentage + "%";
-      dateCell.textContent = dueDate;
-
-      // Add Delete Button
-      let deleteBtn = document.createElement("button");
-      deleteBtn.textContent = "Done!!";
-      deleteBtn.className = "bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 transition";
-      deleteBtn.onclick = function () {
+      newRow.querySelector("button").addEventListener("click", () => {
         tableBody.removeChild(newRow);
-      };
-      actionCell.appendChild(deleteBtn);
-      actionCell.className = "text-center";
+      });
 
-      // Clear input fields
-      document.getElementById("className").value = "";
-      document.getElementById("percentage").value = "";
-      document.getElementById("dueDate").value = "";
+      document.getElementById("gradeForm").reset();
     });
   </script>
 

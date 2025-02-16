@@ -6,27 +6,26 @@
   <title>Profile | Syllabus RPG</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+<body class="bg-[#0D1117] text-[#E5E5E5] min-h-screen flex flex-col">
 
   <!-- Navigation -->
-  <nav class="bg-blue-600 py-4">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-      <div class="text-white font-bold text-lg">Syllabus RPG</div>
-      <div class="space-x-6">
-        <a href="{{ url_for('index') }}" class="text-white hover:text-gray-200">Home</a>
-        <a href="{{ url_for('todo') }}" class="text-white hover:text-gray-200">To-Do List</a>
-        <a href="#changesoon" class="text-white hover:text-gray-200">Edit Profile</a>
-      </div>
+  <nav class="py-4 flex justify-center">
+    <div class="bg-[#21262D] px-10 py-2 rounded-full shadow-lg">
+      <ul class="flex items-center space-x-10">
+        <li><a href="{{ url_for('index') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Home</a></li>
+        <li><a href="{{ url_for('todo') }}" class="text-[#E5E5E5] hover:text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Tasks</a></li>
+        <li><a href="{{ url_for('profile') }}" class="text-[#58A6FF] transform transition-transform duration-200 hover:-translate-y-1">Profile</a></li>
+      </ul>
     </div>
   </nav>
 
   <!-- Profile Header Section -->
-  <section class="bg-blue-700 text-white py-16">
+  <section class="bg-[#21262D] text-[#E5E5E5] py-16">
     <div class="max-w-5xl mx-auto text-center">
-      <img src="{{ url_for('static', filename='male_profile_picture.jpg') }}" alt="Profile Avatar" class="w-32 h-32 rounded-full mx-auto border-4 border-white">
+      <img src="{{ url_for('static', filename='male_profile_picture.jpg') }}" alt="Profile Avatar" class="w-32 h-32 rounded-full mx-auto border-4 border-[#58A6FF]">
       <h1 class="text-4xl font-semibold mt-4">John Doe</h1>
       <p class="mt-2 text-lg">Gamifying productivity, one class at a time.</p>
-      <p class="mt-2 text-gray-300">Computer Science Student at University of Windsor</p>
+      <p class="mt-2 text-gray-400">Computer Science Student at University of Windsor</p>
     </div>
   </section>
 
@@ -36,41 +35,41 @@
       <h2 class="text-2xl font-bold text-center mb-8">Achievements</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Achievement Card -->
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-[#30363D] p-6 rounded-lg shadow-md">
           <h3 class="text-lg font-bold">First Class Added</h3>
-          <p class="mt-2 text-gray-700">You've added your first class! Keep it up!</p>
+          <p class="mt-2 text-gray-400">You've added your first class! Keep it up!</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-[#30363D] p-6 rounded-lg shadow-md">
           <h3 class="text-lg font-bold">Assignment Master</h3>
-          <p class="mt-2 text-gray-700">Completed 5 assignments on time.</p>
+          <p class="mt-2 text-gray-400">Completed 5 assignments on time.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-[#30363D] p-6 rounded-lg shadow-md">
           <h3 class="text-lg font-bold">Streak Keeper</h3>
-          <p class="mt-2 text-gray-700">Maintained a 7-day productivity streak!</p>
+          <p class="mt-2 text-gray-400">Maintained a 7-day productivity streak!</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Class Progress Section -->
-  <section id="progress" class="py-16 bg-gray-200">
+  <section id="progress" class="py-16 bg-[#161B22]">
     <div class="max-w-5xl mx-auto px-4">
       <h2 class="text-2xl font-bold text-center mb-8">Class Progress</h2>
       <div class="space-y-6">
         <!-- Progress Card -->
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-[#21262D] p-6 rounded-lg shadow-md">
           <h3 class="text-lg font-bold">CS101 - Introduction to Programming</h3>
-          <div class="w-full bg-gray-300 rounded-full h-4 mt-2">
-            <div class="bg-blue-600 h-4 rounded-full" style="width: 60%;"></div>
+          <div class="w-full bg-gray-600 rounded-full h-4 mt-2">
+            <div class="bg-[#58A6FF] h-4 rounded-full" style="width: 60%;"></div>
           </div>
-          <p class="mt-2 text-gray-700">60% complete</p>
+          <p class="mt-2 text-gray-400">60% complete</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
+        <div class="bg-[#21262D] p-6 rounded-lg shadow-md">
           <h3 class="text-lg font-bold">MATH201 - Calculus II</h3>
-          <div class="w-full bg-gray-300 rounded-full h-4 mt-2">
-            <div class="bg-blue-600 h-4 rounded-full" style="width: 40%;"></div>
+          <div class="w-full bg-gray-600 rounded-full h-4 mt-2">
+            <div class="bg-[#58A6FF] h-4 rounded-full" style="width: 40%;"></div>
           </div>
-          <p class="mt-2 text-gray-700">40% complete</p>
+          <p class="mt-2 text-gray-400">40% complete</p>
         </div>
       </div>
     </div>
@@ -80,12 +79,12 @@
   <section id="contact" class="py-16">
     <div class="max-w-5xl mx-auto px-4 text-center">
       <h2 class="text-2xl font-bold mb-8">Edit Your Profile</h2>
-      <a href="#" class="bg-blue-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-blue-700 transition">Update Profile</a>
+      <a href="#" class="bg-[#58A6FF] text-[#0D1117] py-2 px-6 rounded-lg text-lg hover:bg-[#1F6FEB] transform transition-transform duration-200 hover:-translate-y-1">Update Profile</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-blue-600 text-white py-8">
+  <footer class="bg-[#0D1117] text-[#E5E5E5] py-8">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p>&copy; 2025 Syllabus RPG. All rights reserved.</p>
     </div>
