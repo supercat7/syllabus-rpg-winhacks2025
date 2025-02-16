@@ -39,6 +39,6 @@ def load_all_assignments():
     for assignment_group in data:
         for assignment in assignment_group:
             assignment_name = assignment.get("Assignment")
-            assignments_dict[assignment_name] = assignment  # Add to the dictionary
+            assignments_dict[assignment_name] = assignment 
             
     return assignments_dict

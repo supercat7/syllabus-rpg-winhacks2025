@@ -42,9 +42,8 @@ def add_task():
         }
 
         current_data = read_json()
-        
-        current_data.append([new_task])
-        
+        current_data.append(new_task)  # Append new task to existing tasks
+
         with open('./data/comp.json', 'w') as file:
             json.dump(current_data, file, indent=4)
 
@@ -54,24 +53,21 @@ def add_task():
 
 
 
+
 @app.route('/enter_grade', methods=['POST'])
 def enter_grade():
     try:
-        data = request.get_json()  # Get the request JSON data
+        data = request.get_json() 
         assignment_name = data.get('assignment_name')  # Get assignment name from the request
         grade = float(data.get('grade'))  # Get the grade and ensure it's a float
 
-        # Read the current data from the JSON file
         assignments_data = read_json()
 
-        # Flag to check if we found the assignment
         assignment_found = False
 
-        # Loop through all assignment groups
         for assignment_group in assignments_data:
             for assignment in assignment_group:
                 if assignment.get("Assignment") == assignment_name:
-                    # Update the grade if assignment is found
                     assignment["Grade"] = grade
                     assignment_found = True
                     break
