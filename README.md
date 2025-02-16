@@ -4,7 +4,5 @@ Maintain streaks for the work/task completed
 A timeline for midterms, assignments and tests based of your calendar which can be extracted from the UWINSITE.
 
 - Leveling up with points
-- To do assignments
-- Timeline
+- data analytics in profile section
 - profile creation
-- AI parsing problem
